@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosalie Fan-Seite</title>
+    <style>
+        /* Allgemeine Stile */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .menu-container {
+            position: relative;
+            text-align: center; /* Zentriert den Menübutton */
+        }
+
+        .menu-button {
+            background-color: #ff758c;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .menu-button:hover {
+            background-color: #ff4a6e;
+            transform: scale(1.05);
+        }
+
+        .menu-list {
+            list-style-type: none;
+            margin-top: 10px; /* Abstand zwischen Button und Liste */
+            padding-left: 0; /* Entfernt Einrückung */
+            display: none; /* Versteckt die Liste standardmäßig */
+        }
+
+        .menu-list li {
+            margin-bottom: 10px; /* Abstand zwischen den Links */
+        }
+
+        .menu-list li a {
+            font-weight: bold;
+            color: #ff758c;
+            transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .menu-list li a:hover {
+            color: #ff4a6e;
+            transform: scale(1.05);
+        }
+
+        .menu-container.active .menu-list {
+            display: block; /* Zeigt die Liste an, wenn aktiv */
+        }
+
+        /* Main Content */
+        main {
+            flex-grow: 1; 
+            padding: 40px; 
+        }
+
+        section {
+            margin-bottom: 40px; 
+            padding: 20px; 
+            background-color: white; 
+            border-radius: 8px; 
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.1); 
+        }
+
+        section h2 {
+            font-size: 2rem; 
+            color:#ff758c; 
+            margin-bottom :20px ;
+         }
+         
+         /* Footer */
+         footer{
+             background-color:#333333 ;
+             color:white ;
+             text-align:center ;
+             padding :20px ;
+             margin-top:auto; /* Damit der Footer immer unten bleibt */
+         }
+     </style>
+</head>
+<body>
+    <header>
+       <h1>Rosalie - Das junge Ausnahmetalent</h1>
+       <p>Die Stimme einer neuen Generation</p>
+   </header>
+
+   <nav>
+       <div class="menu-container">
+           <button class="menu-button">Menü</button>
+           <ul class="menu-list">
+               <li><a href="#biografie">Biografie</a></li>
+               <li><a href="#musik">Musik</a></li>
+               <li><a href="#inspiration">Inspiration</a></li>
+               <li><a href="#erfolge">Erfolge</a></li>
+               <li><a href="#zukunft">Zukunftspläne</a></li>
+               <li><a href="#extras">Extras</a></li> <!-- Neuer Menüpunkt -->
+           </ul>
+       </div>
+   </nav>
+
+   <main>
+    <!-- Biografie -->
+    <section id="biografie">
+        <h2>Über Rosalie</h2>
+        <p>Rosalie ist ein junges Talent aus Essen, das bei "The Voice Kids" mit ihrer gefühlvollen Stimme beeindruckt hat. Sie wurde am 15. Mai 2012 geboren und entdeckte ihre Liebe zur Musik bereits im Alter von sechs Jahren.</p>
+
+        <h3>Hintergrund</h3>
+        <p>Ihre Eltern sind große Unterstützer ihres Talents und fördern sie seit ihren ersten Auftritten im Schulchor. Schon früh zeigte sich Rosalies außergewöhnliches Gespür für Melodien und Texte.</p>
+
+        <h3>*The Voice Kids*</h3>
+        <p>Rosalie wurde durch ihre Teilnahme an *The Voice Kids* im Jahr 2024 bekannt. Sie beeindruckte mit ihrer Performance von "Ich hass dich" (Nina Chuba) und ihrem eigenen Song "Red' Dir nichts ein". Ihre Auftritte rührten sowohl die Coaches als auch das Publikum.</p>
+
+        <h3>Besonderheiten</h3>
+        <ul>
+            <li>Ihre Songs behandeln oft tiefgründige Themen wie Depressionen und persönliche Erfahrungen.</li>
+            <li>Sie erreichte Millionen Klicks auf TikTok und erhielt Lob von der Sängerin Nina Chuba.</li>
+            <li>Neben *The Voice Kids* trat sie auch bei lokalen Events wie dem Weinfest in Kettwig und Essen Original auf.</li>
+        </ul>
+    </section>
+</main>
+
+
+       <!-- Musik -->
+       <!-- (Vorherige Abschnitte bleiben unverändert) -->
+
+       <!-- Extras -->
+       <section id="extras">
+           <h2>Extras</h2>
+           <p>Entdecke besondere Inhalte rund um Rosalie!</p>
+           <button onclick="location.href='quiz.html'" style="
+               background-color:#ff758c; 
+               color:white; 
+               font-size :16 px ; 
+               padding :10 px ; 
+               border:none ; 
+               border-radius :5 px ; 
+               cursor:pointer ; ">
+               Zum Quiz
+           </button>
+       </section>
+
+   </main>
+
+   <!-- Footer -->
+   <footer>&copy;2025 Rosalie Fan-Seite. Alle Rechte vorbehalten.</footer >
+
+   <!-- JavaScript für Dropdown-Menü -->
+   <script>
+       const menuButton = document.querySelector('.menu-button');
+       const menuContainer = document.querySelector('.menu-container');
+
+       menuButton.addEventListener('click', () => {
+           menuContainer.classList.toggle('active');
+       });
+   </script>
+</body >
+</html >

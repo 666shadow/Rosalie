@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosalie Quiz</title>
+    <style>
+        /* Allgemeine Stile */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff758c, #ffc3d1);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            animation: fadeInDown 1s ease-in-out; /* Sanfte Animation */
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        /* Fortschrittsbalken */
+        progress {
+            width: 100%;
+            height: 20px;
+            appearance: none; /* Entfernt Standard-Styling */
+        }
+
+        progress::-webkit-progress-bar {
+            background-color: #ddd; /* Hintergrund des Balkens */
+            border-radius: 10px;
+        }
+
+        progress::-webkit-progress-value {
+            background-color: #ff758c; /* Fortschritt-Farbe */
+            border-radius: 10px; /* Abgerundete Ecken */
+        }
+
+        progress::-moz-progress-bar {
+            background-color: #ff758c; /* Für Firefox */
+            border-radius: 10px;
+        }
+
+        .question-container {
+            animation: fadeInUp 0.5s ease-in-out; /* Neue Animation */
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .options li {
+            margin-bottom: 10px;
+        }
+
+        .options button {
+            width: calc(100% - 20px);
+            padding: 12px;
+            background-color: #ff758c;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition:
+                background-color 0.3s ease-in-out,
+                transform 0.2s ease-in-out,
+                box-shadow 0.3s ease-in-out; /* Schöne Effekte */
+        }
+
+        .options button:hover {
+            background-color:#ff4a6e; /* Hellerer Farbton */
+transform scale(1.05); /* Leichtes Vergrößern */
+}
+
+.navigation-buttons {
+    display:flex ;
+    justify-content : space-between ;
+}
+
+.navigation-buttons button {
+    padding :10px ;
+    background-color :#555555 ;
+    color:white ;
+    border-radius :5px ;
+    cursor:pointer ;
+}
+
+.navigation-buttons button:hover {
+    background-color :#777777 ; /* Hellerer Farbton */
+}
+
+.result-container h2 {
+   color:#ff758c
+}
+    </style>
+</head>
+<body>
+    <h1>Wie viel Rosalie-Fan bist du?</h1>
+    <div class="quiz-container">
+        
+       <!-- Fortschrittsbalken -->
+       <progress id="progress-bar" value="0" max="100"></progress>
+
+       <!-- Quiz -->
+       <div id="quiz">
+           <div class="question-container">
+               <div class="question" id="question">Frage wird geladen...</div>
+               <ul class="options" id="options"></ul>
+           </div>
+
+           <!-- Navigationsbuttons -->
+           <div class="navigation-buttons">
+               <button id="prev-btn" style="display:none;">Zurück</button>
+               <button id="next-btn" style="display:none;">Weiter</button>
+               <button id="submit-btn" style="display:none;">Abschließen</button>
+           </div>
+       </div>
+
+       <!-- Ergebnis -->
+       <div id="result" style="display:none;">
+           <h2>Du bist zu <span id="result-percentage">0</span>% ein Rosalie-Fan!</h2>
+           <button onclick="restartQuiz()">Quiz erneut starten</button>
+       </div>
+    </div>
+
+    <script>
+       const questions = [
+           { question:"Welchen Song hat Rosalie bei 'The Voice Kids' gesungen?", options:["Ich hass dich", "Levitating", "Blinding Lights", "Shape of You"], answerIndex:0 },
+           { question:"Wie alt war Rosalie bei ihrem Auftritt?", options:["10 Jahre", "11 Jahre", "12 Jahre", "13 Jahre"], answerIndex:2 },
+           { question:"Welches Instrument spielt Rosalie?", options:["Gitarre", "Klavier", "Schlagzeug", "Violine"], answerIndex:1 },
+           { question:"Wie heißt Rosalies eigener Song?", options:["Red dir nichts ein", "Ich hass dich", "Stay Strong", "Hope"], answerIndex:0 },
+           { question:"In welchem Jahr trat Rosalie bei 'The Voice Kids' auf?", options:["2022", "2023", "2024", "2025"], answerIndex:1 },
+           { question:"Welches Team hat Rosalie gewählt?", options:["Team Lena", "Team Wincent", "Team Alvaro", "Team Michi & Smudo"], answerIndex:3 },
+           { question:"Woher kommt Rosalie?", options:["Berlin", "Hamburg", "München", "Essen"], answerIndex:3 }
+       ];
+
+       let currentQuestionIndex = 0; 
+       let correctAnswers = [];
+       const questionElement = document.getElementById("question");
+       const optionsElement = document.getElementById("options");
+       const progressBar = document.getElementById("progress-bar");
+       const resultElement = document.getElementById("result");
+       const resultPercentage = document.getElementById("result-percentage");
+       const prevButton = document.getElementById("prev-btn");
+       const nextButton = document.getElementById("next-btn");
+       const submitButton = document.getElementById("submit-btn");
+
+       function loadQuestion() {
+           const currentQuestion = questions[currentQuestionIndex];
+           questionElement.textContent = currentQuestion.question;
+
+           optionsElement.innerHTML = ""; // Lösche vorherige Optionen
+           currentQuestion.options.forEach((option, index) => {
+               const button = document.createElement("button");
+               button.textContent = option;
+
+               // Markiere die Auswahl
+               if (correctAnswers[currentQuestionIndex] === index) {
+                   button.style.backgroundColor = "#ff4a6e";
+               }
+
+               button.onclick = () => selectAnswer(index);
+               optionsElement.appendChild(button);
+           });
+
+           updateProgressBar();
+           updateNavigationButtons();
+       }
+
+       function selectAnswer(selectedIndex) {
+           correctAnswers[currentQuestionIndex] = selectedIndex; // Speichere die Auswahl
+       }
+
+       function updateProgressBar() {
+           const progressPercentage =
+               ((currentQuestionIndex + 1) / questions.length) * 100; // +1 für aktuelle Frage
+           progressBar.value = progressPercentage; // Aktualisiere den Fortschritt
+       }
+
+       function updateNavigationButtons() {
+           prevButton.style.display =
+               currentQuestionIndex > 0 ? "inline-block" : "none";
+           nextButton.style.display =
+               currentQuestionIndex < questions.length - 1 ? "inline-block" : "none";
+           submitButton.style.display =
+               currentQuestionIndex === questions.length - 1 ? "inline-block" : "none";
+       }
+
+       function showResult() {
+           const correctCount = correctAnswers.filter(
+               (answer, index) => answer === questions[index].answerIndex
+           ).length;
+
+           const percentage = Math.round((correctCount / questions.length) * 100);
+           resultPercentage.textContent = percentage.toString();
+
+           document.getElementById("quiz").style.display = "none";
+           resultElement.style.display = "block";
+       }
+
+       function restartQuiz() {
+           currentQuestionIndex = 0; 
+           correctAnswers = [];
+           
+           resultElement.style.display = "none";
+           document.getElementById("quiz").style.display = "block";
+
+           loadQuestion();
+       }
+
+       prevButton.addEventListener("click", () => {
+           currentQuestionIndex--;
+           loadQuestion();
+       });
+
+       nextButton.addEventListener("click", () => {
+           currentQuestionIndex++;
+           loadQuestion();
+       });
+
+       submitButton.addEventListener("click", showResult);
+
+       // Starte das Quiz
+       loadQuestion();
+    </script>
+</body>
+</html>
