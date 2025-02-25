@@ -27,18 +27,6 @@
             color: white;
             margin-bottom: 20px;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            animation: fadeInDown 1s ease-in-out; /* Sanfte Animation */
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .quiz-container {
@@ -49,43 +37,6 @@
             width: 90%;
             max-width: 600px;
             text-align: center;
-        }
-
-        /* Fortschrittsbalken */
-        progress {
-            width: 100%;
-            height: 20px;
-            appearance: none; /* Entfernt Standard-Styling */
-        }
-
-        progress::-webkit-progress-bar {
-            background-color: #ddd; /* Hintergrund des Balkens */
-            border-radius: 10px;
-        }
-
-        progress::-webkit-progress-value {
-            background-color: #ff758c; /* Fortschritt-Farbe */
-            border-radius: 10px; /* Abgerundete Ecken */
-        }
-
-        progress::-moz-progress-bar {
-            background-color: #ff758c; /* Für Firefox */
-            border-radius: 10px;
-        }
-
-        .question-container {
-            animation: fadeInUp 0.5s ease-in-out; /* Neue Animation */
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .question {
@@ -102,54 +53,73 @@
             margin-bottom: 10px;
         }
 
-        .options button {
-            width: calc(100% - 20px);
-            padding: 12px;
+        .options label {
+            display: block;
+            padding: 10px;
             background-color: #ff758c;
             color: white;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
-            transition:
-                background-color 0.3s ease-in-out,
-                transform 0.2s ease-in-out,
-                box-shadow 0.3s ease-in-out; /* Schöne Effekte */
         }
 
-        .options button:hover {
-            background-color:#ff4a6e; /* Hellerer Farbton */
-transform scale(1.05); /* Leichtes Vergrößern */
-}
+        .options input[type="checkbox"] {
+            display: none; /* Verstecke Checkboxen */
+        }
 
-.navigation-buttons {
-    display:flex ;
-    justify-content : space-between ;
-}
+        .options input[type="checkbox"]:checked + label {
+            background-color: #ff4a6e; /* Highlight bei Auswahl */
+        }
 
-.navigation-buttons button {
-    padding :10px ;
-    background-color :#555555 ;
-    color:white ;
-    border-radius :5px ;
-    cursor:pointer ;
-}
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
 
-.navigation-buttons button:hover {
-    background-color :#777777 ; /* Hellerer Farbton */
-}
+        .navigation-buttons button {
+            padding: 10px;
+            background-color: #555555;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.result-container h2 {
-   color:#ff758c
-}
+        .navigation-buttons button:hover {
+            background-color: #777777; /* Hellerer Farbton */
+        }
+
+        .result-container h2 {
+           color:#ff758c
+       }
+
+       /* Animierte Nachricht */
+       .congrats-message {
+           display: none; /* Versteckt die Nachricht standardmäßig */
+           background-color: #ff758c; /* Farbe passend zur Seite */
+           color: white; 
+           padding: 20px; 
+           border-radius: 10px; 
+           font-size: 1.5rem; 
+           text-align: center; 
+           margin-top: 20px; 
+           animation: popUpAnimation 1s ease-in-out forwards; /* Animation */
+       }
+
+       @keyframes popUpAnimation {
+           from {
+               transform: scale(0.5);
+               opacity: 0;
+           }
+           to {
+               transform: scale(1);
+               opacity: 1;
+           }
+       }
     </style>
 </head>
 <body>
     <h1>Wie viel Rosalie-Fan bist du?</h1>
     <div class="quiz-container">
         
-       <!-- Fortschrittsbalken -->
-       <progress id="progress-bar" value="0" max="100"></progress>
-
        <!-- Quiz -->
        <div id="quiz">
            <div class="question-container">
@@ -168,28 +138,40 @@ transform scale(1.05); /* Leichtes Vergrößern */
        <!-- Ergebnis -->
        <div id="result" style="display:none;">
            <h2>Du bist zu <span id="result-percentage">0</span>% ein Rosalie-Fan!</h2>
+           <!-- Animierte Nachricht -->
+           <div class="congrats-message" id="congrats-message">
+               🎉 Herzlichen Glückwunsch! Du bist ein wahrer Rosalie-Fan! 🎉
+           </div>
            <button onclick="restartQuiz()">Quiz erneut starten</button>
        </div>
     </div>
 
     <script>
        const questions = [
-           { question:"Welchen Song hat Rosalie bei 'The Voice Kids' gesungen?", options:["Ich hass dich", "Levitating", "Blinding Lights", "Shape of You"], answerIndex:0 },
-           { question:"Wie alt war Rosalie bei ihrem Auftritt?", options:["10 Jahre", "11 Jahre", "12 Jahre", "13 Jahre"], answerIndex:2 },
-           { question:"Welches Instrument spielt Rosalie?", options:["Gitarre", "Klavier", "Schlagzeug", "Violine"], answerIndex:1 },
-           { question:"Wie heißt Rosalies eigener Song?", options:["Red dir nichts ein", "Ich hass dich", "Stay Strong", "Hope"], answerIndex:0 },
-           { question:"In welchem Jahr trat Rosalie bei 'The Voice Kids' auf?", options:["2022", "2023", "2024", "2025"], answerIndex:1 },
-           { question:"Welches Team hat Rosalie gewählt?", options:["Team Lena", "Team Wincent", "Team Alvaro", "Team Michi & Smudo"], answerIndex:3 },
-           { question:"Woher kommt Rosalie?", options:["Berlin", "Hamburg", "München", "Essen"], answerIndex:3 }
+           { 
+               question:"Welchen Song hat Rosalie bei 'The Voice Kids' gesungen?", 
+               options:["Ich hass dich", "Levitating", "Blinding Lights", "Shape of You"], 
+               correctAnswers:[0] 
+           },
+           { 
+               question:"Welche Instrumente spielt Rosalie?", 
+               options:["Gitarre", "Klavier", "Schlagzeug", "Violine"], 
+               correctAnswers:[0, 1] // Mehrere richtige Antworten
+           },
+           { 
+               question:"Wie heißt Rosalies eigener Song?", 
+               options:["Red dir nichts ein", "Ich hass dich", "Stay Strong", "Hope"], 
+               correctAnswers:[0] 
+           }
        ];
 
        let currentQuestionIndex = 0; 
-       let correctAnswers = [];
+       let selectedAnswers = [];
        const questionElement = document.getElementById("question");
        const optionsElement = document.getElementById("options");
-       const progressBar = document.getElementById("progress-bar");
        const resultElement = document.getElementById("result");
        const resultPercentage = document.getElementById("result-percentage");
+       const congratsMessage = document.getElementById("congrats-message");
        const prevButton = document.getElementById("prev-btn");
        const nextButton = document.getElementById("next-btn");
        const submitButton = document.getElementById("submit-btn");
@@ -200,30 +182,50 @@ transform scale(1.05); /* Leichtes Vergrößern */
 
            optionsElement.innerHTML = ""; // Lösche vorherige Optionen
            currentQuestion.options.forEach((option, index) => {
-               const button = document.createElement("button");
-               button.textContent = option;
+               const li = document.createElement("li");
 
-               // Markiere die Auswahl
-               if (correctAnswers[currentQuestionIndex] === index) {
-                   button.style.backgroundColor = "#ff4a6e";
+               // Checkbox erstellen
+               const checkbox = document.createElement("input");
+               checkbox.type = "checkbox";
+               checkbox.id = `option-${index}`;
+               checkbox.value = index;
+
+               // Label für die Checkbox
+               const label = document.createElement("label");
+               label.htmlFor = `option-${index}`;
+               label.textContent = option;
+
+               li.appendChild(checkbox);
+               li.appendChild(label);
+               optionsElement.appendChild(li);
+
+               // Markiere bereits ausgewählte Antworten
+               if (selectedAnswers[currentQuestionIndex]?.includes(index)) {
+                   checkbox.checked = true;
                }
 
-               button.onclick = () => selectAnswer(index);
-               optionsElement.appendChild(button);
+               checkbox.addEventListener("change", () => toggleAnswer(index));
            });
 
-           updateProgressBar();
            updateNavigationButtons();
        }
 
-       function selectAnswer(selectedIndex) {
-           correctAnswers[currentQuestionIndex] = selectedIndex; // Speichere die Auswahl
-       }
+       function toggleAnswer(selectedIndex) {
+           if (!selectedAnswers[currentQuestionIndex]) {
+               selectedAnswers[currentQuestionIndex] = [];
+           }
 
-       function updateProgressBar() {
-           const progressPercentage =
-               ((currentQuestionIndex + 1) / questions.length) * 100; // +1 für aktuelle Frage
-           progressBar.value = progressPercentage; // Aktualisiere den Fortschritt
+           const answerList = selectedAnswers[currentQuestionIndex];
+           
+           if (answerList.includes(selectedIndex)) {
+               // Entferne die Auswahl
+               selectedAnswers[currentQuestionIndex] = answerList.filter(
+                   (answer) => answer !== selectedIndex
+               );
+           } else {
+               // Füge die Auswahl hinzu
+               answerList.push(selectedIndex);
+           }
        }
 
        function updateNavigationButtons() {
@@ -236,12 +238,25 @@ transform scale(1.05); /* Leichtes Vergrößern */
        }
 
        function showResult() {
-           const correctCount = correctAnswers.filter(
-               (answer, index) => answer === questions[index].answerIndex
-           ).length;
+           let correctCount = 0;
+
+           questions.forEach((question, index) => {
+               if (
+                   JSON.stringify(question.correctAnswers.sort()) ===
+                   JSON.stringify((selectedAnswers[index] || []).sort())
+               ) {
+                   correctCount++;
+               }
+           });
 
            const percentage = Math.round((correctCount / questions.length) * 100);
            resultPercentage.textContent = percentage.toString();
+
+           if (percentage === 100) {
+               congratsMessage.style.display = "block"; // Zeige animierte Nachricht
+           } else {
+               congratsMessage.style.display = "none"; // Verstecke sie, falls nicht perfekt
+           }
 
            document.getElementById("quiz").style.display = "none";
            resultElement.style.display = "block";
@@ -249,9 +264,11 @@ transform scale(1.05); /* Leichtes Vergrößern */
 
        function restartQuiz() {
            currentQuestionIndex = 0; 
-           correctAnswers = [];
+           selectedAnswers = [];
            
            resultElement.style.display = "none";
+           congratsMessage.style.display = "none"; // Verstecke die Nachricht beim Neustart
+           
            document.getElementById("quiz").style.display = "block";
 
            loadQuestion();
